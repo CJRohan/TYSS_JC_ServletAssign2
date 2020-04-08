@@ -6,29 +6,31 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>EmployeeList</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
 <body>
 	<%
-		if (!("loggedin").equals(session.getAttribute("admins")))
+	if (session.getAttribute("admin") == null)
 			response.sendRedirect("");
 	%>
-	<a
+	<header class = "card-header text-center">Employee Management Portal</header>
+	<div class = " text-right"> <a
 		href="${pageContext.request.contextPath}/employeeAssignment?action=WELCOME"
-		method="POST"">HOME</a> |
+		method="POST" class = "btn btn-success">HOME</a>
 	<a
 		href="${pageContext.request.contextPath}/employeeAssignment?action=LOGOUT"
-		method="POST"">LOGOUT</a>
-	<br> ${messagel}
+		method="POST" class = "btn btn-warning" >LOGOUT</a>
+		</div>
+ <br> ${messagel}
 	<div align="center">
 		<a
 			href="${pageContext.request.contextPath}/employeeAssignment?action=ADD">ADD
 			a new user</a><br> <br>
-		<table border="2" cellpadding="3" cellspacing="2">
-			<tr>
-				<th>ID</th>
+		<table class = "table-striped table-hover table-bordered text-center"  >
+				<tr class = "table-info">
+				<th >ID</th>
 				<th>Name</th>
-				<th>DOB</th>
-				<th>JoinedOn</th>
+				<th colspan=2>DOB&emsp;&ensp;&emsp;JoinedOn<br>yyyy-mm-dd</th>
 				<th>DeptID</th>
 				<th>Designation</th>
 				<th>Salary</th>

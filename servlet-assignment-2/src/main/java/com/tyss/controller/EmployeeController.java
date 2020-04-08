@@ -39,7 +39,7 @@ public class EmployeeController extends HttpServlet {
 		if (action == null)
 			action = "ENTRY";
 		
-		else if (!"LOGIN".equals(action) && !"loggedin".equals(session.getAttribute("admins"))) {
+		else if (!"LOGIN".equals(action) && session.getAttribute("admin") == null) {
 			action = "ENTRY";
 			req.setAttribute("message", "Please Login First!!!");
 		}
@@ -50,8 +50,8 @@ public class EmployeeController extends HttpServlet {
 			dispatcher.forward(req, resp);
 			break;
 		case "LOGIN":
-			if (service.validate(new Login(req.getParameter("admin"),req.getParameter("pass")))) {
-				session.setAttribute("admins", "loggedin");
+			if (service.validate(new Login(req.getParameter("admin").trim(),req.getParameter("pass").trim()))) {
+				session.setAttribute("admin", new Login(req.getParameter("admin"),req.getParameter("pass")));
 				dispatcher = req.getRequestDispatcher("Views/welcome.jsp");
 				dispatcher.forward(req, resp);
 			} else {
@@ -117,7 +117,7 @@ public class EmployeeController extends HttpServlet {
 			} else {
 				employeeDetails.setEmpid(Integer.parseInt(req.getParameter("id")));
 				service.edit(employeeDetails);
-				req.setAttribute("message", "Employee Updated succesfully!!!");
+				req.setAttribute("message", "Employee Updated succesfully/nAdd a new employee");
 			}
 			dispatcher = req.getRequestDispatcher("Views/add.jsp");
 			dispatcher.forward(req, resp);
@@ -149,7 +149,7 @@ public class EmployeeController extends HttpServlet {
 			break;
 		case "LOGOUT":
 			req.setAttribute("message", "You have sucessfully logged out!!!");
-			session.setAttribute("admins", "");
+			session.setAttribute("admin", null);
 			dispatcher = req.getRequestDispatcher("Views/login.jsp");
 			dispatcher.forward(req, resp);
 		default:
